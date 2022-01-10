@@ -52,7 +52,7 @@ public class ConnectionUtil {
 			// I right clicked on the application.properties > went to properties than
 			// copy/pasted the exact location of the file
 			prop.load(new FileReader(
-					"/src/main/resources/application.properties"));
+					"/Users/christianmakoma/Revature/backupWorkspace/TestRevORM/src/main/resources/application.properties"));
 
 			url = prop.getProperty("url"); // this is retrieving the value of the "url" key in application.properties
 											// file

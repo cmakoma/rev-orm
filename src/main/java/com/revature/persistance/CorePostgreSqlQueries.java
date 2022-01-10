@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -32,7 +33,18 @@ public class CorePostgreSqlQueries implements CoreImp {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public boolean addClass(Class<?> clazz) {
 
@@ -44,76 +56,66 @@ public class CorePostgreSqlQueries implements CoreImp {
 		// determine the number of fields
 		int numberOfFields = 0;
 		for (Field field : clazz.getFields()) {
+			
+            if (!field.isAnnotationPresent(Table.class)) {
+                numberOfFields++;
+            }
+		}
+		
+		
 
-			// check to see if the class has an @Table
-			if (!field.isAnnotationPresent(Table.class)) {
-				numberOfFields++;
+		String sql = null;
+		// check to see if the class has an @fdfIgonre
+		if (clazz.isAnnotationPresent(Table.class)) {
+
+			// Start the sql statement
+			//sql = "insert into " + "\"" + clazz.getSimpleName().toLowerCase() + "\"" + " (";
+
+			sql = "CREATE TABLE " + clazz.getSimpleName().toUpperCase()  + " (";
+			
+			int fieldCounter = 0;
+			for (Field field : clazz.getFields()) {
+
+				
+					fieldCounter++;
+					if (!field.getName().equals("id")) {
+						sql += " " + field.getName() + " VARCHAR(255)";
+						if (numberOfFields > fieldCounter)
+							sql += ",";
+					}else {
+						sql += " ID  SERIAL PRIMARY KEY ";
+						if (numberOfFields > fieldCounter)
+							sql += ",";
+					}
+				
 			}
+			sql += ");";
 		}
 
-		
+		logger.info(sql);
 
 		try {
 			
-			String sql = null;
-			// check to see if the class has an @fdfIgonre
-			if (!clazz.isAnnotationPresent(Table.class)) {
-
-				// Start the sql statement
-				sql = "insert into " + "\"" + clazz.getSimpleName().toLowerCase() + "\"" + " (";
-
-				int fieldCounter = 0;
-				for (Field field : clazz.getFields()) {
-
-					// check to see if the class has an @fdfIgonre
-					if (!field.isAnnotationPresent(Table.class)) {
-
-						fieldCounter++;
-						if (!field.getName().equals("id")) {
-							sql += " " + field.getName();
-							if (numberOfFields > fieldCounter)
-								sql += ",";
-						}
-					}
-				}
-
-				sql += " ) values (";
-
-				// insert the correct number of question marks for the prepared statement
-				int fieldCounter2 = 0;
-				for (Field field : clazz.getFields()) {
-
-					// check to see if the class has an @Table
-					if (!field.isAnnotationPresent(Table.class)) {
-
-						fieldCounter2++;
-						if (!field.getName().equals("id")) {
-							sql += " ?";
-							if (numberOfFields > fieldCounter2)
-								sql += ",";
-						}
-					}
-				}
-				sql += ");";
-			}
+			PreparedStatement preparedStmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
-			
-			PreparedStatement preparedStmt = conn.prepareStatement(sql);
-			ResultSet rs = null;
+			logger.info("Creating a table");
 			preparedStmt.execute();
-			rs = preparedStmt.getGeneratedKeys();
-			rs.next();
-			newId = rs.getInt("id");
+			logger.info("Successfully Created a table");
+			return true;
 
 			
 		} catch (SQLException e) {
 			logger.warn("Unable to insert Class");
 			e.printStackTrace();
+			
 		}
 		
-		return newId == -1 ? false : true;
+		return false;
 
 	}
+	
+	
+	
 
 	@Override
 	public boolean UpdateObjectInDB(Object obj, String update_columns) {
@@ -137,66 +139,62 @@ public class CorePostgreSqlQueries implements CoreImp {
 		// determine the number of fields
 		int numberOfFields = 0;
 		for (Field field : obj.getClass().getFields()) {
-
-			// check to see if the class has an @Table
-			if (!field.isAnnotationPresent(PrimaryKey.class)) {
 				numberOfFields++;
+		}
+		
+		
+
+		String sql = null;
+		// check to see if the class has an @fdfIgonre
+		if (obj.getClass().isAnnotationPresent(Table.class)) {
+
+			// Start the sql statement
+			sql = "insert into "  + obj.getClass().getSimpleName().toUpperCase() + "\"" + " (";
+
+			int fieldCounter = 0;
+			for (Field field : obj.getClass().getFields()) {
+
+				
+					fieldCounter++;
+					if (!field.getName().equals("id")) {
+						sql += " " + field.getName();
+						if (numberOfFields > fieldCounter)
+							sql += ",";
+					}
+				
 			}
+
+			sql += " ) values (";
+
+			// insert the correct number of question marks for the prepared statement
+			int fieldCounter2 = 0;
+			for (Field field : obj.getClass().getFields()) {
+
+					fieldCounter2++;
+					if (!field.getName().equals("id")) {
+						sql += " ?";
+						if (numberOfFields > fieldCounter2)
+							sql += ",";
+					}
+				
+			}
+			sql += ");";
 		}
 
+		logger.info(sql);
 		
 
 		try {
 			
-			String sql = null;
-			// check to see if the class has an @fdfIgonre
-			if (obj.getClass().isAnnotationPresent(Table.class)) {
-
-				// Start the sql statement
-				sql = "insert into " + "\"" + obj.getClass().getSimpleName().toLowerCase() + "\"" + " (";
-
-				int fieldCounter = 0;
-				for (Field field : Table.class.getFields()) {
-
-					// check to see if the class has an @fdfIgonre
-					if (!field.isAnnotationPresent(PrimaryKey.class)) {
-
-						fieldCounter++;
-						if (!field.getName().equals("id")) {
-							sql += " " + field.getName();
-							if (numberOfFields > fieldCounter)
-								sql += ",";
-						}
-					}
-				}
-
-				sql += " ) values (";
-
-				// insert the correct number of question marks for the prepared statement
-				int fieldCounter2 = 0;
-				for (Field field : Table.class.getFields()) {
-
-					// check to see if the class has an @Table
-					if (!field.isAnnotationPresent(Table.class)) {
-
-						fieldCounter2++;
-						if (!field.getName().equals("id")) {
-							sql += " ?";
-							if (numberOfFields > fieldCounter2)
-								sql += ",";
-						}
-					}
-				}
-				sql += ");";
-			}
+			PreparedStatement preparedStmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
-			
-			PreparedStatement preparedStmt = conn.prepareStatement(sql);
-			ResultSet rs = null;
+			logger.info("Inserting obj");
 			preparedStmt.execute();
+			ResultSet rs = null;
 			rs = preparedStmt.getGeneratedKeys();
 			rs.next();
 			newId = rs.getInt("id");
+			
 
 			
 		} catch (SQLException e) {
