@@ -1,0 +1,13 @@
+/Users/christianmakoma/Revature/backupWorkspace/RevORM/src/main/java/com/revature/util/DatabaseUtil.java
+/Users/christianmakoma/Revature/backupWorkspace/RevORM/src/main/java/com/revature/persistance/CorePostgreSqlQueries.java
+/Users/christianmakoma/Revature/backupWorkspace/RevORM/src/main/java/com/revature/annotation/Setter.java
+/Users/christianmakoma/Revature/backupWorkspace/RevORM/src/main/java/com/revature/annotation/Column.java
+/Users/christianmakoma/Revature/backupWorkspace/RevORM/src/main/java/com/revature/util/Configuration.java
+/Users/christianmakoma/Revature/backupWorkspace/RevORM/src/main/java/com/revature/annotation/Getter.java
+/Users/christianmakoma/Revature/backupWorkspace/RevORM/src/main/java/com/revature/persistance/CoreImp.java
+/Users/christianmakoma/Revature/backupWorkspace/RevORM/src/main/java/com/revature/persistance/DbConnectionManager.java
+/Users/christianmakoma/Revature/backupWorkspace/RevORM/src/main/java/com/revature/annotation/SerialKey.java
+/Users/christianmakoma/Revature/backupWorkspace/RevORM/src/main/java/com/revature/annotation/PrimaryKey.java
+/Users/christianmakoma/Revature/backupWorkspace/RevORM/src/main/java/com/revature/annotation/Table.java
+/Users/christianmakoma/Revature/backupWorkspace/RevORM/src/main/java/com/revature/util/ConnectionUtil.java
+/Users/christianmakoma/Revature/backupWorkspace/RevORM/src/main/java/com/revature/model/State.java

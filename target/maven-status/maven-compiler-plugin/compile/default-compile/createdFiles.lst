@@ -1,0 +1,16 @@
+com/revature/util/DatabaseUtil.class
+com/revature/persistance/CorePostgreSqlQueries.class
+com/revature/annotation/Table.class
+com/revature/model/State.class
+com/revature/annotation/SerialKey.class
+com/revature/util/DatabaseUtil$DatabaseType.class
+com/revature/util/DatabaseUtil$DatabaseProtocol.class
+com/revature/annotation/PrimaryKey.class
+com/revature/annotation/Setter.class
+com/revature/annotation/Column.class
+com/revature/persistance/CoreImp.class
+com/revature/util/DatabaseUtil$DatabaseEncoding.class
+com/revature/util/ConnectionUtil.class
+com/revature/util/Configuration.class
+com/revature/annotation/Getter.class
+com/revature/persistance/DbConnectionManager.class
